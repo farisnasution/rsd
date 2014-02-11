@@ -1,0 +1,7 @@
+name: rsd
+author: Faris Nasution <nasution.faris@gmail.com>
+description: router.
+dependencies:
+  bow:
+    git: https://github.com/farisnasution/bow
+  unittest: any
