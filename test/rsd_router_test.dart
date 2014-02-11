@@ -9,11 +9,18 @@ void rsdRouterTest() {
           router = new RsdRouter()..stream = s;
 
       router
-        ..handler(r'^/$', expectAsync((data) {
+        ..handler(r'^/$', expectAsync((data, args) {
           expect(data, equals('/'));
+          expect(args, isList);
+          expect(args, isEmpty);
         }))
-        ..handler(r'^/(\w+)/(\d+)/$', expectAsync((data) {
+        ..handler(r'^/(\w+)/(\d+)/$', expectAsync((data, args) {
           expect(data, equals('/faris/100/'));
+          expect(args, isList);
+          expect(args, isNot(isEmpty));
+          expect(args.length, equals(2));
+          expect(args.first, equals('faris'));
+          expect(args.last, equals(100));
         }));
 
       c
@@ -31,16 +38,23 @@ void rsdRouterTest() {
 
       router
         ..include(r'^/api/', nested)
-        ..include(r'^/reddit/r/', anotherNested);
+        ..include(r'^/reddit/(\w+)/', anotherNested);
 
       nested
-        ..handler(r'user/$', expectAsync((data) {
+        ..handler(r'user/$', expectAsync((data, args) {
           expect(data, equals('/api/user/'));
+          expect(args, isList);
+          expect(args, isEmpty);
         }));
 
       anotherNested
-        ..handler(r'dartlang/$', ((data) {
+        ..handler(r'(\w+)/$', ((data, args) {
           expect(data, equals('/reddit/r/dartlang/'));
+          expect(args, isList);
+          expect(args, isNot(isEmpty));
+          expect(args.length, equals(2));
+          expect(args.first, equals('r'));
+          expect(args.last, equals('dartlang'));
         }));
 
       c
