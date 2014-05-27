@@ -4,4 +4,4 @@ description: router.
 dependencies:
   bow:
     git: https://github.com/farisnasution/bow
-  unittest: any
+  unittest: 1.0.0
